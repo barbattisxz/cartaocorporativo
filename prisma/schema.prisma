@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../dev.db"
+}
+
+model Despesa {
+  id_despesa      Int      @id @default(autoincrement())
+  id_tipo_despesa Int
+  id_beneficiario Int
+  id_projeto      Int?
+  data_despesa    DateTime
+  valor           Float
+  cnpj_fornecedor String?
+  imagem_nota     Bytes?
+
+  items_fatura    ItemFatura[]
+  tipo_despesa    TipoDespesa @relation(fields: [id_tipo_despesa], references: [id_tipo_despesa])
+  beneficiario    Beneficiario @relation(fields: [id_beneficiario], references: [id_beneficiario])
+  projeto         Projeto?     @relation(fields: [id_projeto], references: [id_projeto])
+
+  @@map("despesa")
+}
+
+model Fatura {
+  id_fatura      Int      @id @default(autoincrement())
+  id_cartao      Int
+  valor_fatura   Float
+  data_fatura    DateTime
+  id_verificador Int
+
+  items_fatura   ItemFatura[]
+  cartao         Cartao      @relation(fields: [id_cartao], references: [id_cartao])
+  verificador    Verificador @relation(fields: [id_verificador], references: [id_verificador])
+
+  @@map("fatura")
+}
+
+model TipoDespesa {
+  id_tipo_despesa Int    @id @default(autoincrement())
+  descricao       String
+
+  despesas        Despesa[]
+
+  @@map("tipo_despesa")
+}
+
+
+model ItemFatura {
+  id_item        Int      @id @default(autoincrement())
+  id_fatura      Int
+  id_despesa     Int
+  valor_item     Float
+  data_item      DateTime
+  status_analise String?
+  justificativa  String?
+
+  fatura         Fatura   @relation(fields: [id_fatura], references: [id_fatura])
+  despesa        Despesa  @relation(fields: [id_despesa], references: [id_despesa])
+
+  @@map("item_fatura")
+}
+
+model Projeto {
+  id_projeto      Int      @id @default(autoincrement())
+  valor_orcamento Float
+  sigla           String
+  nome            String
+  centro_custo    String
+  numero_contrato String
+  data_inicio     DateTime
+  data_fim        DateTime?
+  
+  despesas        Despesa[]
+
+  @@map("projeto")
+}
+
+model Beneficiario {
+  id_beneficiario Int    @id @default(autoincrement())
+  nome            String
+  login           String @unique
+  email           String @unique
+  senha           String
+  role            String @default("USER")
+
+  despesas        Despesa[]
+  cartoes         Cartao[]
+
+  @@map("beneficiario")
+}
+
+model Cartao {
+  id_cartao       Int      @id @default(autoincrement())
+  numero          String
+  validade        DateTime
+  data_emissao    DateTime
+  id_beneficiario Int
+
+  beneficiario    Beneficiario @relation(fields: [id_beneficiario], references: [id_beneficiario])
+  faturas         Fatura[]
+
+  @@map("cartao")
+}
+
+model Verificador {
+  id_verificador  Int    @id @default(autoincrement())
+  nome            String
+  cargo           String
+  email           String
+
+  faturas         Fatura[]
+
+  @@map("verificador")
+}
