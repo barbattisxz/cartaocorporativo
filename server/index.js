@@ -632,7 +632,11 @@ app.get('/api/fatura/:id', authenticateToken, async (req, res) => {
       where: { id_fatura: faturaId },
       include: {
         items_fatura: {
-          include: { despesa: true }
+          include: { 
+            despesa: {
+              include: { tipo_despesa: true }
+            }
+          }
         }
       }
     });
