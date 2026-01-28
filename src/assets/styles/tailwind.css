@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Background - Vuexy Dark Theme #25293c */
+    --background: 230 24% 19%;
+    --foreground: 231 20% 90%;
+
+    /* Card - Vuexy Dark Card #2f3349 */
+    --card: 231 22% 24%;
+    --card-foreground: 231 20% 90%;
+
+    /* Popover */
+    --popover: 231 22% 24%;
+    --popover-foreground: 231 20% 90%;
+
+    /* Primary - Vuexy Purple #7367f0 */
+    --primary: 245 82% 67%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Vuexy Grey #82868b */
+    --secondary: 216 3% 53%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted */
+    --muted: 231 22% 28%;
+    --muted-foreground: 216 3% 60%;
+
+    /* Accent */
+    --accent: 231 22% 30%;
+    --accent-foreground: 231 20% 90%;
+
+    /* Success - Vuexy Green #28c76f */
+    --success: 147 67% 47%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning - Vuexy Orange #ff9f43 */
+    --warning: 29 100% 63%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Info - Vuexy Cyan #00cfe8 */
+    --info: 187 100% 45%;
+    --info-foreground: 0 0% 100%;
+
+    /* Destructive - Vuexy Red #ea5455 */
+    --destructive: 359 79% 62%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and Input */
+    --border: 231 22% 30%;
+    --input: 231 22% 30%;
+    --ring: 245 82% 67%;
+
+    --radius: 0.5rem;
+
+    /* Sidebar */
+    --sidebar-background: 230 24% 19%;
+    --sidebar-foreground: 231 20% 90%;
+    --sidebar-primary: 245 82% 67%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 231 22% 24%;
+    --sidebar-accent-foreground: 231 20% 90%;
+    --sidebar-border: 231 22% 30%;
+    --sidebar-ring: 245 82% 67%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Public Sans', system-ui, -apple-system, sans-serif;
+    background-color: hsl(var(--background)) !important; /* Force dark background */
+  }
+  
+  #app {
+    background-color: hsl(var(--background));
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Vuexy Card */
+  .vuexy-card {
+    @apply bg-card rounded-lg border border-border shadow-sm;
+  }
+
+  .vuexy-card-header {
+    @apply px-6 py-4 border-b border-border;
+  }
+
+  .vuexy-card-body {
+    @apply p-6;
+  }
+
+  /* Sidebar Styles */
+  .sidebar {
+    @apply fixed left-0 top-0 h-full w-64 bg-sidebar border-r border-sidebar-border z-50 flex flex-col;
+  }
+
+  .sidebar-brand {
+    @apply px-6 py-5 border-b border-sidebar-border;
+  }
+
+  .sidebar-menu {
+    @apply flex-1 py-4 overflow-y-auto;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-6 py-3 text-sidebar-foreground transition-all duration-200 hover:bg-sidebar-accent hover:text-foreground mx-3 rounded-lg;
+  }
+
+  .sidebar-item-active {
+    @apply bg-primary/10 text-primary font-medium;
+  }
+
+  .sidebar-item-active::before {
+    content: '';
+    @apply absolute left-0 w-1 h-8 bg-primary rounded-r-full;
+  }
+
+  /* Main Content */
+  .main-content {
+    @apply ml-64 min-h-screen p-6 transition-all duration-300;
+  }
+  
+  @media (max-width: 768px) {
+    .main-content {
+        @apply ml-0 p-4;
+    }
+    .sidebar {
+        @apply -translate-x-full transition-transform duration-300;
+    }
+    .sidebar.open {
+        @apply translate-x-0;
+    }
+  }
+
+  /* Stats Card */
+  .stats-card {
+    @apply vuexy-card p-6 flex items-center gap-4;
+  }
+
+  .stats-icon {
+    @apply w-12 h-12 rounded-lg flex items-center justify-center;
+  }
+
+  .stats-icon-primary {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .stats-icon-success {
+    @apply bg-success/10 text-success;
+  }
+
+  .stats-icon-warning {
+    @apply bg-warning/10 text-warning;
+  }
+
+  .stats-icon-info {
+    @apply bg-info/10 text-info;
+  }
+
+  /* Badge Styles */
+  .badge {
+    @apply px-2.5 py-0.5 rounded text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-success/10 text-success;
+  }
+
+  .badge-warning {
+    @apply bg-warning/10 text-warning;
+  }
+
+  .badge-primary {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .badge-info {
+    @apply bg-info/10 text-info;
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2.5 px-5 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium py-2.5 px-5 rounded-lg transition-all duration-200;
+  }
+
+  .btn-outline {
+    @apply border border-primary text-primary hover:bg-primary hover:text-primary-foreground font-medium py-2.5 px-5 rounded-lg transition-all duration-200;
+  }
+
+  /* Table Styles */
+  .vuexy-table {
+    @apply w-full;
+  }
+
+  .vuexy-table thead {
+    @apply bg-muted/50;
+  }
+
+  .vuexy-table th {
+    @apply px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider;
+  }
+  
+  .vuexy-table td {
+    @apply px-6 py-4 text-sm border-b border-border/50;
+  }
+  
+  .vuexy-table tr:last-child td {
+    @apply border-0;
+  }
+}
